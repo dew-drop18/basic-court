@@ -1,0 +1,59 @@
+.hero-copy {
+  padding: 58px 0 48px;
+}
+
+.game-layout {
+  grid-template-columns: 140px minmax(460px, 1fr) 210px;
+  gap: 42px;
+}
+
+.court-status {
+  padding-bottom: 15px;
+}
+
+.court-footer {
+  padding-top: 17px;
+}
+
+.page-footer {
+  padding-top: 34px;
+}
+
+.countdown {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  display: grid;
+  place-items: center;
+  color: var(--lime);
+  font: 900 clamp(90px, 16vw, 190px)/1 'Barlow Condensed', sans-serif;
+  text-shadow: 5px 5px 0 var(--blue);
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(.7);
+}
+
+.countdown.visible {
+  opacity: 1;
+  animation: countdown-pop .95s ease-out both;
+}
+
+@keyframes countdown-pop {
+  0% { transform: scale(1.25); opacity: 0; }
+  25% { transform: scale(1); opacity: 1; }
+  85% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(.8); opacity: 0; }
+}
+
+@media (max-width: 900px) {
+  .game-layout {
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .game-layout {
+    gap: 30px;
+  }
+}

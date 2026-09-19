@@ -1,0 +1,12 @@
+{
+  "name": "basic-court",
+  "private": true,
+  "version": "1.0.0",
+  "description": "COURTSIDE basketball game with peer-to-peer online multiplayer",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

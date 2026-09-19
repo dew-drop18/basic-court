@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="COURTSIDE is a 3D basketball shootout with four shooting ranges, AI defense, and local multiplayer." />
+  <title>COURTSIDE // 3D Basketball</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="easy-shooting.css" />
+  <link rel="stylesheet" href="spacing.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <section class="title-screen" id="titleScreen" aria-label="Game mode selection">
+      <div class="title-grid-mark">◆</div>
+      <p class="eyebrow">COURTSIDE PRESENTS <span>03D</span></p>
+      <h2>OWN <em>THE ARC.</em></h2>
+      <p class="title-subtitle">A 3D basketball run<br />built for one more possession.</p>
+      <div class="mode-options">
+        <button class="mode-card" id="singlePlayerButton" type="button"><span class="mode-number">01</span><strong>SINGLE PLAYER</strong><small>VS CPU / WASD + SPACE</small><b>↗</b></button>
+        <button class="mode-card mode-card-blue" id="twoPlayerButton" type="button"><span class="mode-number">02</span><strong>TWO PLAYER</strong><small>LOCAL DUEL / PLAY TOGETHER</small><b>↗</b></button>
+        <button class="mode-card mode-card-online" id="onlinePlayerButton" type="button"><span class="mode-number">03</span><strong>ONLINE RUN</strong><small>PEER-TO-PEER / SHARE A CODE</small><b>↗</b></button>
+      </div>
+      <section class="online-panel" id="onlinePanel" aria-label="Online multiplayer connection">
+        <div class="online-panel-head"><strong>DIRECT CONNECTION</strong><button id="closeOnlineButton" type="button" aria-label="Close online connection">×</button></div>
+        <p class="online-help">Enter the same room code on both computers. The website handles the connection setup, while gameplay stays peer-to-peer.</p>
+        <div class="online-actions"><button id="hostOnlineButton" type="button">HOST RUN <b>↗</b></button><button id="joinOnlineButton" type="button">JOIN RUN <b>↗</b></button></div>
+        <label for="roomCode">ROOM CODE</label>
+        <input id="roomCode" maxlength="12" autocomplete="off" spellcheck="false" placeholder="E.G. COURT24" />
+        <p class="online-status" id="onlineStatus" aria-live="polite">Choose host or join to begin.</p>
+      </section>
+      <p class="title-footnote">SELECT YOUR RUN <span>◆</span> 2026 EDITION</p>
+    </section>
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand-mark">C</span><span>COURTSIDE</span></a>
+      <div class="session-tag"><span class="live-dot"></span> <span id="modeLabel">3D LOCAL RUN</span> <span class="slash">/</span> HALF COURT</div>
+      <div class="topbar-actions"><button class="fullscreen-button" id="fullscreenButton" type="button" aria-label="Enter fullscreen">FULLSCREEN <b>⛶</b></button><button class="reset-button" id="resetButton" type="button">RESET RUN <b>↗</b></button></div>
+    </header>
+
+    <section class="hero-copy">
+      <div><p class="eyebrow">RHYTHM SHOOTER <span>01</span></p><h1>OWN <em>THE ARC.</em></h1></div>
+      <p class="intro">A little space.<br />A clean look.<br />Nothing but net.</p>
+    </section>
+
+    <section class="game-layout" aria-label="3D basketball shootout">
+      <aside class="score-panel">
+        <p class="panel-label">YOUR RUN <span class="score-mode" id="scoreMode">SOLO</span></p>
+        <div class="score-number" id="score">000</div>
+        <div class="score-meta"><span>PTS</span><span class="divider"></span><span id="shots">00</span> SHOTS</div>
+        <div class="cpu-score"><span id="opponentLabel">CPU</span><strong id="cpuScore">000</strong></div>
+        <div class="streak-block"><span class="panel-label">STREAK</span><strong id="streak">0</strong><span class="streak-fire">+</span></div>
+        <div class="high-score"><span>BEST RUN</span><strong id="bestScore">000</strong></div>
+      </aside>
+
+      <div class="court-wrap">
+        <div class="court-status"><span id="statusText">STEP INTO THE LIGHT</span><span class="status-key" id="rangeLabel">4 RANGE SYSTEM</span></div>
+        <div class="scene" id="scene" tabindex="0" aria-label="3D basketball court. Use WASD or arrow keys to move and hold Space to charge a shot.">
+          <canvas id="gameCanvas"></canvas>
+          <div class="crosshair" id="crosshair"></div>
+          <div class="charge-meter" id="chargeMeter"><div class="meter-label">RELEASE</div><div class="meter-track"><div class="meter-fill" id="meterFill"></div><i class="sweet-spot"></i></div><div class="meter-endpoints"><span>SHORT</span><span>PERFECT</span><span>LONG</span></div></div>
+          <div class="feedback" id="feedback"></div>
+          <div class="countdown" id="countdown" aria-live="assertive"></div>
+          <div class="start-prompt" id="startPrompt"><span class="prompt-icon">↑</span><strong>GET IN YOUR BAG</strong><span>WASD / ARROWS TO MOVE</span></div>
+          <div class="scene-note">COURTSIDE CAM <span>01</span> <i>4 RANGE SYSTEM</i></div>
+          <div class="turn-badge" id="turnBadge">PLAYER 1'S BALL</div>
+        </div>
+        <div class="court-footer"><span><i class="key-icon">WASD</i> P1 MOVE <i class="key-icon">ARROWS</i> P2 MOVE</span><span><i class="key-icon wide">SPACE</i>/<i class="key-icon wide">ENTER</i> SHOOT</span><span class="defense-note"><i class="key-icon">SHIFT/P</i> JUMP <i class="key-icon">Q/O</i> STEAL</span></div>
+      </div>
+
+      <aside class="tips-panel"><p class="panel-label">SCOUT'S NOTES</p><div class="tip"><span>01</span><p><strong>LAYUP / 1 PT</strong><br />Closest range. Biggest green.</p></div><div class="tip"><span>02</span><p><strong>MIDRANGE / 2 PTS</strong><br />Find the painted pocket.</p></div><div class="tip"><span>03</span><p><strong>THREE / 3 PTS</strong><br />Behind the arc. Earn the extra point.</p></div><div class="tip"><span>04</span><p><strong>DEEP / 4 PTS</strong><br />Farthest range. Tightest green.</p></div><div class="controls-guide"><p class="panel-label">CONTROLS</p><p><strong>Single Player</strong><br />WASD move · Space shoot<br />G guard · Q steal · Shift jump</p><p><strong>Two Player</strong><br />P1: WASD / Space / G / Q<br />P2: Arrows / Enter / L / O / P</p></div></aside>
+    </section>
+    <footer class="page-footer"><span>DESIGNED FOR THE NEXT POSSESSION</span><span>EST. 2026 <b>◆</b> NYC</span></footer>
+  </main>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
