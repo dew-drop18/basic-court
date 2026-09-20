@@ -69,7 +69,6 @@ const threePointRadius = 8.5;
 const shootingSpotZ = 7;
 const defenderSpotZ = 4;
 camera.position.set(0, 8.9, shootingSpotZ + 15.5);
-camera.lookAt(0, 1.9, -5);
 
 function addBox(size, position, material, options = {}) { const mesh = new THREE.Mesh(new THREE.BoxGeometry(...size), material); mesh.position.set(...position); mesh.castShadow = options.castShadow ?? true; mesh.receiveShadow = options.receiveShadow ?? true; world.add(mesh); return mesh; }
 function addLine(points, y = .025) { const geometry = new THREE.BufferGeometry().setFromPoints(points.map(([x, z]) => new THREE.Vector3(x, y, z))); const line = new THREE.Line(geometry, lineMaterial); world.add(line); return line; }
