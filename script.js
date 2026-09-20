@@ -33,6 +33,16 @@ const scoreMode = document.querySelector('#scoreMode');
 const opponentLabel = document.querySelector('#opponentLabel');
 const rangeLabel = document.querySelector('#rangeLabel');
 const turnBadge = document.querySelector('#turnBadge');
+const runtimeErrorPanel = document.createElement('aside');
+runtimeErrorPanel.className = 'runtime-error-panel';
+runtimeErrorPanel.setAttribute('role', 'alert');
+runtimeErrorPanel.innerHTML = '<strong>COURTSIDE ERROR</strong><pre></pre><button type="button">COPY ERROR</button>';
+document.body.appendChild(runtimeErrorPanel);
+const runtimeErrorDetails = runtimeErrorPanel.querySelector('pre');
+runtimeErrorPanel.querySelector('button').addEventListener('click', async () => { await navigator.clipboard?.writeText(runtimeErrorDetails.textContent); });
+function showRuntimeError(error, source = 'Runtime error') { const details = error instanceof Error ? `${source}: ${error.message}\n\n${error.stack || ''}` : `${source}: ${String(error)}`; runtimeErrorDetails.textContent = details; runtimeErrorPanel.classList.add('visible'); console.error(details); }
+window.addEventListener('error', (event) => showRuntimeError(event.error || event.message, `Error in ${event.filename || 'script'}:${event.lineno || 0}`));
+window.addEventListener('unhandledrejection', (event) => showRuntimeError(event.reason, 'Unhandled promise rejection'));
 let peerConnection = null;
 let dataChannel = null;
 let onlineRole = null;
@@ -228,6 +238,7 @@ function attemptSteal(id = 1) {
 }
 function showFeedback(text, made) { feedback.textContent = text; feedback.className = `feedback show${made ? '' : ' miss'}`; window.setTimeout(() => feedback.className = 'feedback', 900); }
 function sendOnline(message) { if (dataChannel?.readyState === 'open') dataChannel.send(JSON.stringify(message)); }
+function submitOnlineCode() {}
 function setOnlineStatus(message) { onlineStatus.textContent = message; }
 function waitForIceGathering() { return new Promise((resolve) => { if (peerConnection.iceGatheringState === 'complete') { resolve(); return; } const check = () => { if (peerConnection.iceGatheringState === 'complete') { peerConnection.removeEventListener('icegatheringstatechange', check); resolve(); } }; peerConnection.addEventListener('icegatheringstatechange', check); window.setTimeout(resolve, 4000); }); }
 function sendSignal(signal) { if (signalingSocket?.readyState === WebSocket.OPEN) signalingSocket.send(JSON.stringify({ type: 'signal', signal })); }
